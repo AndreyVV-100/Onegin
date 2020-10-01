@@ -1,0 +1,4 @@
+3
+1 A ABBB
+3 C ACACAC
+0 G AAA
