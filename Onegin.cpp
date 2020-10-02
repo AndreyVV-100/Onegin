@@ -53,7 +53,7 @@ void TestCompareBack();
 
 int main()
 {
-	TestCountSymbols();
+	//TestCountSymbols();
 
 	char* text = NULL;
 	ReadTxt (&text, "in.txt");
@@ -62,17 +62,17 @@ int main()
 	Line* lines = (Line*) calloc (num_lines, sizeof (lines[0]));
 	DoLines (text, lines, num_lines);
 	
-	/*
+	
 	QuickSort (lines, num_lines, &CompareFront);
 	PrintTxt  (lines, num_lines, "out_front.txt");
-	*/
 
+	/*
 	qsort (lines, num_lines, sizeof(lines[0]), CompareFront);
 	PrintTxt (lines, num_lines, "out_front.txt");
 
 	qsort (lines, num_lines, sizeof(lines[0]), CompareBack);
 	PrintTxt (lines, num_lines, "out_back.txt");
-
+	*/
 	free (text);
 	free (lines);
 	
@@ -124,11 +124,14 @@ void DoLines (char* text, Line *lines, int num_lines)
 	assert (lines);
 	assert (lines > 0);
 	
-	if (*text != '\n')
-		lines[0].point = text;
+	while (*text == '\n') text++;
+	
+	assert (*text);
+
+	lines[0].point = text;
 
 	int i_line = 1;
-	//i_line
+
 	for (i_line; i_line < num_lines; i_line++)
 	{
 		lines[i_line].point = strchr (lines[i_line - 1].point, '\n') + 1;
@@ -166,25 +169,22 @@ void QuickSort(Line* mass, size_t num_elements,
 
 	int left  = 0;
 	int	right = num_elements - 1;
-	int mid   = (left + right) / 2;
+	Line mid  = mass[(left + right) / 2];
 
 	while (left < right)
 	{
-		//printf ("%d %d\n", left, right);
-		while ((*comp)(mass +  left, mass + mid) <  0) left++;
-		//printf("kk\n");
-		while ((*comp)(mass + right, mass + mid) >= 0) right--;
-		//printf("gg\n");
+		while ((*comp)(mass + left,  &mid) < 0 && left < right) left++;
+		while ((*comp)(mass + right, &mid) > 0 && left < right) right--;
 
 		if (left >= right) break;
 		Swap (mass + left++, mass + right--);
 	}
 
-	printf("%d %d\n", left, right);
 	if (right > 1)
 		QuickSort (mass,                        right, comp);
 	if (right + 1 < num_elements && right > 0) 
 		QuickSort (mass + right, num_elements - right, comp);
+
 	return;
 }
 
