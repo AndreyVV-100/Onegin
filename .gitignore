@@ -340,5 +340,5 @@ ASALocalRun/
 healthchecksdb
 
 # DELETED BY ME
-/*.txt
-/Onegin*
+*.txt
+Onegin*
