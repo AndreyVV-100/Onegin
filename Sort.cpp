@@ -100,7 +100,7 @@ int CompareFront (const void* element1, const void* element2)
 	if (el1 == el2)
 		return 0;
 
-	while (1)
+	while (true)
 	{
 		if (*el1 == '\0' && *el2 == '\0')
 			return 0;
@@ -138,8 +138,10 @@ int CompareBack (const void* element1, const void* element2)
 	assert (element1);
 	assert (element2);
 
-	if (* (* ( (Line*)element1)).point == '\0') return -1;
-	if (* (* ( (Line*)element2)).point == '\0') return +1;
+	if (* (* ( (Line*)element1)).point == '\0') 
+		return -1;
+	if (* (* ( (Line*)element2)).point == '\0') 
+		return +1;
 
 	char* el1 = (* ( (Line*)element1)).point + (* ( (Line*)element1)).lenght - 2;
 	char* el2 = (* ( (Line*)element2)).point + (* ( (Line*)element2)).lenght - 2;
@@ -147,7 +149,7 @@ int CompareBack (const void* element1, const void* element2)
 	if (el1 == el2)
 		return 0;
 
-	while (1)
+	while (true)
 	{
 		if (*el1 == '\0' && *el2 == '\0')
 			return 0;
@@ -180,11 +182,11 @@ int CompareBack (const void* element1, const void* element2)
 	}
 }
 
-int IsAlphaRus (char c)
+int IsAlphaRus (const char c)
 {
 	return (c >= 'A' && c <= 'Z' ||
-		c >= 'a' && c <= 'z' ||
-		c >= 'À' && c <= 'ß' ||
-		c >= 'à' && c <= 'ÿ' ||
-		c == '¨' || c == '¸');
+			c >= 'a' && c <= 'z' ||
+			c >= 'À' && c <= 'ß' ||
+			c >= 'à' && c <= 'ÿ' ||
+			c == '¨' || c == '¸');
 }

@@ -27,28 +27,3 @@ void TestCountSymbols()
 	fclose (text);
 	return;
 }
-
-void TestDoLines()
-{
-
-}
-
-void TestQuickSort()
-{
-
-}
-
-void TestSwap()
-{
-
-}
-
-void TestCompareFront()
-{
-
-}
-
-void TestCompareBack()
-{
-
-}
