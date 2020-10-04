@@ -1,43 +1,43 @@
 #include "Text.h"
 #include "main.h"
 
-void ReadTxt(char** text, const char* file_name)
+void ReadTxt (char** text, const char* file_name)
 {
-	assert(text);
-	assert(file_name);
+	assert (text);
+	assert (file_name);
 
-	FILE* file = fopen(file_name, "r");
+	FILE* file = fopen (file_name, "r");
 	if (file == NULL)
 	{
-		printf("[Input error] Unable to open file \"%s\"\n", file_name);
-		exit(EXIT_FAILURE);
+		printf ("[Input error] Unable to open file \"%s\"\n", file_name);
+		exit (EXIT_FAILURE);
 	}
 
-	fseek(file, 0, SEEK_END);
-	size_t num_symbols = ftell(file);
-	fseek(file, 0, SEEK_SET);
+	fseek (file, 0, SEEK_END);
+	size_t num_symbols = ftell (file);
+	fseek (file, 0, SEEK_SET);
 
-	*text = (char*)calloc(num_symbols + 2, sizeof(**text));
+	*text = (char*)calloc (num_symbols + 2, sizeof (**text));
 	if (*text == NULL)
 	{
-		printf("[Error] Unable to allocate memory\n");
-		exit(EXIT_FAILURE);
+		printf ("[Error] Unable to allocate memory\n");
+		exit (EXIT_FAILURE);
 	}
 
 	**text = '\0';
-	fread(*text + 1, sizeof(**text), num_symbols, file);
+	fread (*text + 1, sizeof (**text), num_symbols, file);
 
-	fclose(file);
+	fclose (file);
 
 	return;
 }
 
-int CountSymbols(char* text, const char str)
+int CountSymbols (char* text, const char str)
 {
 	assert (text);
 	int counter = 0;
 	if (*text == str) counter++;
-	while (text = strchr(text + 1, str)) counter++;
+	while (text = strchr (text + 1, str)) counter++;
 	return counter;
 }
 
