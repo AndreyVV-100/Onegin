@@ -132,8 +132,8 @@ int DoLines(char* text, Line* lines, int num_lines)
 			position++;
 			count_empty++;
 			first = second + 1;
-			second = strchr(first, '\n');
-		} while (second - first < 2 && second);
+			second = strchr (first, '\n');
+		} while ((*first == '\r' || second - first < 1) && second);
 
 		num_lines -= --count_empty;
 
