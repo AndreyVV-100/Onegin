@@ -9,28 +9,25 @@ int main()
 
 	setlocale(LC_ALL, "Russian");
 
-	char* text = NULL;
-	ReadTxt (&text, "in.txt");
-	size_t num_lines = CountSymbols (text + 1, '\n') + 1;
-	size_t original = num_lines;
+	const char* file_in = "in.txt";
 
-	Line* lines = (Line*) calloc (num_lines, sizeof (lines[0]));
-	num_lines = DoLines (text, lines, num_lines);
+	Text text = {};
+
+	ConstructorText (&text, file_in);
 	
-	QuickSort (lines, num_lines, &CompareFront);
+	QuickSort (text.lines, text.n_empty_lines, &CompareFront);
 	//qsort (lines, num_lines, sizeof(lines[0]), CompareFront);
 	
-	PrintTxt  (lines, num_lines, "out_front.txt");
+	PrintTxt  (&text, "out_front.txt");
 
-	QuickSort (lines, num_lines, &CompareBack);
+	QuickSort (text.lines, text.n_empty_lines, &CompareBack);
 	//qsort (lines, num_lines, sizeof(lines[0]), CompareBack);
 
-	PrintTxt (lines, num_lines, "out_back.txt");
+	PrintTxt (&text, "out_back.txt");
 
-	PrintOriginal (text + 1, original);
+	PrintOriginal (&text);
 
-	free (text);
-	free (lines);
+	DestructorText (&text);
 	
 	return 0;
 }

@@ -1,15 +1,6 @@
 struct Line;
 
 /*!
-	This function transform text to massive of Lines.
-	@param [in] text Text, what will be transformed.
-	@param [out] lines The place, when massive of Lines will be saved.
-	@param [in] num_lines Number of Lines.
-*/
-
-int DoLines (char* text, Line* lines, int num_lines);
-
-/*!
 	This function sort massive of Lines
 	@param [out] mass A massive, what need to be sorted.
 	@param [in] num_elements Number of elements in massive.

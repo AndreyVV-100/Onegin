@@ -1,49 +1,6 @@
 #include "Sort.h"
+#include "Text.h"
 #include "main.h"
-
-int DoLines (char* text, Line* lines, int num_lines)
-{
-	assert (text);
-	assert (lines);
-	assert (num_lines > 0);
-
-	char* first = nullptr,
-		* second = text;
-
-	for (int i_line = 0; i_line < num_lines; i_line++)
-	{
-		size_t count_empty = 0;
-
-		do
-		{
-			count_empty++;
-			first = second + 1;
-			second = strchr (first, '\n');
-		} while (second - first < 2 && second);
-
-		num_lines -= --count_empty;
-
-		if (second)
-		{
-			lines[i_line].point = first;
-			lines[i_line].lenght = second - first + 1;
-			*second = '\0';
-		}
-		else
-		{
-			second = strchr (first + 1, '\0');
-			if (second && second - first)
-			{
-				lines[i_line].point = first;
-				lines[i_line].lenght = second - first - 1;
-				*second = '\0';
-			}
-		}
-	}
-
-	assert (num_lines > 0);
-	return num_lines;
-}
 
 void QuickSort (Line* mass, size_t num_elements,
 	int (*comp) (const void* element1, const void* element2))
@@ -58,7 +15,7 @@ void QuickSort (Line* mass, size_t num_elements,
 
 	while (left < right)
 	{
-		while ( (*comp) (mass + left, &mid) < 0 && left < right) left++;
+		while ( (*comp) (mass + left,  &mid) < 0 && left < right) left++;
 		while ( (*comp) (mass + right, &mid) > 0 && left < right) right--;
 
 		if (left < right)

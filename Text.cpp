@@ -1,6 +1,31 @@
 #include "Text.h"
 #include "main.h"
 
+void ConstructorText (Text* text, const char* file_in)
+{
+	assert (text);
+	
+	ReadTxt (&(text->buffer), file_in);
+	text->num_lines = CountSymbols (text->buffer + 1, '\n') + 1;
+
+	text->lines = (Line*) calloc (text->num_lines, sizeof (*(text->lines)));
+	text->n_empty_lines = DoLines (text->buffer, text->lines, text->num_lines);
+
+	return;
+}
+
+void DestructorText (Text* text)
+{
+	assert (text);
+	assert (text->buffer);
+	assert (text->lines);
+
+	free (text->buffer);
+	free (text->lines);
+
+	return;
+}
+
 int CountSize (FILE* file)
 {
 	fseek(file, 0, SEEK_END);
@@ -10,15 +35,20 @@ int CountSize (FILE* file)
 	return num_symbols;
 }
 
-void PrintOriginal(char* text, size_t num_lines)
+void PrintOriginal (Text* text)
 {
-	FILE* file = fopen ("original.txt", "w");
+	assert (text);
 
-	for (int i_line = 0; i_line < num_lines; i_line++)
+	char* buffer = text->buffer;
+	assert (buffer);
+	
+	FILE* file = fopen ("original.txt", "w");
+	
+	for (int i_line = 0; i_line < text->num_lines; i_line++)
 	{
-		size_t num_skip = CountSymbols (text, '\n');
-		fprintf (file, "%s\n", text);
-		text = strchr (text, '\0') + 1;
+		size_t num_skip = CountSymbols (buffer, '\n');
+		fprintf (file, "%s\n", buffer);
+		buffer = strchr (buffer, '\0') + 1;
 	}
 
 	fclose (file);
@@ -66,17 +96,62 @@ int CountSymbols (char* text, const char str)
 	return counter;
 }
 
-void PrintTxt (Line *lines, int num_lines, const char* file_name)
+void PrintTxt (Text* text, const char* file_name)
 {
-	assert (lines);
-	assert (num_lines > 0);
+	assert (text);
+	assert (text->lines);
+	assert (text->n_empty_lines > 0);
 
 	FILE* file_out = fopen (file_name, "w");
 
-	for (int i = 0; i < num_lines; i++)
-		fprintf (file_out, "%s\n", lines[i].point);
+	for (int i_line = 0; i_line < text->n_empty_lines; i_line++)
+		fprintf (file_out, "%s\n", (text->lines)[i_line].point);
 
 	fclose (file_out);
 	return;
 }
 
+
+int DoLines(char* text, Line* lines, int num_lines)
+{
+	assert(text);
+	assert(lines);
+	assert(num_lines > 0);
+
+	char* first = nullptr,
+		* second = text;
+
+	for (int i_line = 0; i_line < num_lines; i_line++)
+	{
+		size_t count_empty = 0;
+
+		do
+		{
+			count_empty++;
+			first = second + 1;
+			second = strchr(first, '\n');
+		} while (second - first < 2 && second);
+
+		num_lines -= --count_empty;
+
+		if (second)
+		{
+			lines[i_line].point = first;
+			lines[i_line].lenght = second - first + 1;
+			*second = '\0';
+		}
+		else
+		{
+			second = strchr(first + 1, '\0');
+			if (second && second - first)
+			{
+				lines[i_line].point = first;
+				lines[i_line].lenght = second - first - 1;
+				*second = '\0';
+			}
+		}
+	}
+
+	assert(num_lines > 0);
+	return num_lines;
+}

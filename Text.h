@@ -6,7 +6,31 @@
 
 #include <stdio.h>
 
-struct Line;
+/*!
+	The struct contains a pointer to string and buffer and length
+of this string ('including '\0').
+*/
+
+struct Line
+{
+	char* point = nullptr;
+	size_t lenght = 0;
+};
+
+//! The struct is full set of data.
+
+struct Text
+{
+	char* buffer = nullptr;
+	Line* lines = nullptr;
+
+	size_t num_lines = 0;
+	size_t n_empty_lines = 0;
+};
+
+void ConstructorText (Text* text, const char* file_in);
+
+void DestructorText  (Text* text);
 
 /*!
 	This function are reading txt file.
@@ -33,13 +57,22 @@ int CountSize(FILE* file);
 int CountSymbols (char* text, const char str);
 
 /*!
+	This function transform text to massive of Lines.
+	@param [in] text Text, what will be transformed.
+	@param [out] lines The place, when massive of Lines will be saved.
+	@param [in] num_lines Number of Lines.
+*/
+
+int DoLines (char* text, Line* lines, int num_lines);
+
+/*!
 	Print the text to file to the txt.
 	@param [in] lines The text.
 	@param [in] num_lines Number of lines.
 	@param [in] file_name Name of file, when the text will be printed.
 */
 
-void PrintTxt (Line* lines, int num_lines, const char* file_name);
+void PrintTxt (Text* text, const char* file_name);
 
 /*!
 	This function print original great text!
@@ -47,4 +80,4 @@ void PrintTxt (Line* lines, int num_lines, const char* file_name);
 	@param [in] num_lines Number of lines.
 */
 
-void PrintOriginal (char* text, size_t num_lines);
+void PrintOriginal (Text* text);
