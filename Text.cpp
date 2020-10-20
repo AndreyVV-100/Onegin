@@ -121,12 +121,15 @@ int DoLines(char* text, Line* lines, int num_lines)
 	char* first = nullptr,
 		* second = text;
 
+	int position = 0;
+
 	for (int i_line = 0; i_line < num_lines; i_line++)
 	{
 		size_t count_empty = 0;
 
 		do
 		{
+			position++;
 			count_empty++;
 			first = second + 1;
 			second = strchr(first, '\n');
@@ -136,8 +139,10 @@ int DoLines(char* text, Line* lines, int num_lines)
 
 		if (second)
 		{
-			lines[i_line].point = first;
-			lines[i_line].lenght = second - first + 1;
+			lines[i_line].point    = first;
+			lines[i_line].lenght   = second - first + 1;
+			lines[i_line].position = position;
+
 			*second = '\0';
 		}
 		else
@@ -145,8 +150,10 @@ int DoLines(char* text, Line* lines, int num_lines)
 			second = strchr(first + 1, '\0');
 			if (second && second - first)
 			{
-				lines[i_line].point = first;
-				lines[i_line].lenght = second - first - 1;
+				lines[i_line].point    = first;
+				lines[i_line].lenght   = second - first - 1;
+				lines[i_line].position = position;
+
 				*second = '\0';
 			}
 		}

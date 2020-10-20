@@ -15,6 +15,7 @@ struct Line
 {
 	char* point = nullptr;
 	size_t lenght = 0;
+	size_t position = 0;
 };
 
 //! The struct is full set of data.
