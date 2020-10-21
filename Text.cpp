@@ -5,7 +5,7 @@ void ConstructorText (Text* text, const char* file_in)
 {
 	assert (text);
 	
-	ReadTxt (&(text->buffer), file_in);
+	text->size_text = ReadTxt (&(text->buffer), file_in);
 	text->num_lines = CountSymbols (text->buffer + 1, '\n') + 1;
 
 	text->lines = (Line*) calloc (text->num_lines, sizeof (*(text->lines)));
@@ -56,7 +56,7 @@ void PrintOriginal (Text* text)
 	return;
 }
 
-void ReadTxt (char** text, const char* file_name)
+size_t ReadTxt (char** text, const char* file_name)
 {
 	assert (text);
 	assert (file_name);
@@ -82,7 +82,7 @@ void ReadTxt (char** text, const char* file_name)
 
 	fclose (file);
 
-	return;
+	return num_symbols;
 }
 
 int CountSymbols (char* text, const char str)

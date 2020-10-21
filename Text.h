@@ -27,6 +27,7 @@ struct Text
 
 	size_t num_lines = 0;
 	size_t n_empty_lines = 0;
+	size_t size_text = 0;
 };
 
 void ConstructorText (Text* text, const char* file_in);
@@ -39,7 +40,7 @@ void DestructorText  (Text* text);
 	@param [in] file_name Name of file, when text will be reading.
 */
 
-void ReadTxt (char** text, const char* file_name);
+size_t ReadTxt (char** text, const char* file_name);
 
 /*!
 	This function count size of file.
